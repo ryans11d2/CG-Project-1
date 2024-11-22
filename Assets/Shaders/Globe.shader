@@ -35,7 +35,7 @@ Shader "Custom/Globe"
             half rim = 1.0 - saturate(dot(normalize(IN.viewDir), o.Normal));
             o.Emission = _RimColor.rgb * pow(rim,_RimPower) * 10;
             o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb + _RimColor.rgb;//Remove this for ghost effect
-            o.Alpha = pow(rim, _RimPower) + tex2D(_MainTex, IN.uv_MainTex).rgb;//subtract for contrast weirdness
+            o.Alpha = pow(rim, _RimPower) + tex2D(_MainTex, IN.uv_MainTex).rgb;//subtract for reverse contrast
         }
         ENDCG
     }

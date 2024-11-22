@@ -8,6 +8,7 @@ Shader "Custom/Lambaert"
 
 	SubShader
 	{
+
 		Tags {"LightMode" = "ForwardBase"}
 	
 		Pass
@@ -22,13 +23,13 @@ Shader "Custom/Lambaert"
 
 			uniform float4 _LightColor0;
 
-			struct vertexInput
+			struct vertexInput//vertexInput component
 			{
 				float4 vertex: POSITION;
 				float3 normal: NORMAL;
 			};
 
-			struct vertexOutput
+			struct vertexOutput//vertexOutput component
 			{
 				float4 pos: SV_POSITION;
 				float4 col: COLOR;
@@ -36,8 +37,9 @@ Shader "Custom/Lambaert"
 
 			vertexOutput vert(vertexInput v) 
 			{
-				vertexOutput o;
-			
+				vertexOutput o;//o has the pos and col col variables of vertexOutput
+				//Calculate output o variables using input v information and return o
+
 				float3 normalDirection = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject).xyz);
 				float3 lightDirection;
 				float atten = 1.0;
@@ -46,31 +48,32 @@ Shader "Custom/Lambaert"
 
 				float3 diffuseReflection;
 				
-				if (_Aer == 1) {
+				if (_Aer == 1) {//Diffuse
+					//Calculate diffuse reflection using normal and light direction gathered above
 					float3 diffuseReflection = atten * _LightColor0.xyz * _Color.rgb * max(0.0, dot(normalDirection, lightDirection));
-					o.col = float4(diffuseReflection, 1.0);
+					o.col = float4(diffuseReflection, 1.0);//Set o color using diffuse reflection
 				}
-				else 
+				else//Ambient
 				{
 					diffuseReflection = atten * _LightColor0.xyz * max(0.0, dot(normalDirection, lightDirection));
 					float3 lightFinal = diffuseReflection + UNITY_LIGHTMODEL_AMBIENT.xyz;
 					o.col = float4(lightFinal * _Color.rgb, 1.0);
 				}
 
-				
+				o.pos = UnityObjectToClipPos(v.vertex);//Set position of vertex
 
-				o.pos = UnityObjectToClipPos(v.vertex);
-
-				return o;
+				return o;//return vertex
 			}
 
-			float4 frag(vertexOutput i): COLOR
+			float4 frag(vertexOutput i): COLOR//Get fragment color from vertex output
 			{
-				return i.col;
+				return i.col;//Set fragment color to vertex colour
 			}
 
 			ENDCG
 		}
+
+		
 	}
 }
 

@@ -14,11 +14,6 @@ public class Terminal : MonoBehaviour
         dataImage.enabled = false;
     }
 
-    private void FixedUpdate()
-    {
-        transform.RotateAround(Vector3.up, Time.deltaTime);
-    }
-
     public void Shot()
     {
         manager.Alert();

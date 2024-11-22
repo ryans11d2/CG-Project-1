@@ -23,7 +23,7 @@ public class Switch : MonoBehaviour
             {
                 Activate[i].SetActive(false);
             }
-            gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
+            gameObject.GetComponent<Renderer>().material.SetFloat("_Active", timer / duration);
         }
         else
         {
@@ -32,10 +32,10 @@ public class Switch : MonoBehaviour
             {
                 Activate[i].SetActive(true);
             }
-            gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            gameObject.GetComponent<Renderer>().material.SetFloat("_Active", 0);
         }
 
-       gameObject.GetComponent<Renderer>().material.SetColor("_Color", new Color(1.0f - timer / duration, 0, 0, 0));
+       
 
     }
 

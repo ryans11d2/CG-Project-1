@@ -3,8 +3,6 @@ Shader "Custom/Diffuse"
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
-        //_Glossiness ("Smoothness", Range(0,1)) = 0.5
-        //_Metallic ("Metallic", Range(0,1)) = 0.0
     }
     SubShader
     {
@@ -19,7 +17,6 @@ Shader "Custom/Diffuse"
 
             uniform float4 _Color;
             uniform float4 _LightColor0;
-            //uniform half _Metallic;
 
             struct vertexInput
             {
@@ -47,7 +44,6 @@ Shader "Custom/Diffuse"
                 o.col = float4(diffuseReflection, 1.0);
                 o.pos = UnityObjectToClipPos(v.vertex);
 
-                //o.Metallic = _Metallic;
 
                 return o;
 
