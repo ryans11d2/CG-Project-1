@@ -1,13 +1,9 @@
-Shader "Game/Floor"
+Shader "Game/SmallWall"
 {
 	Properties
 	{
 		_Color ("Colour", Color) = (1, 0, 0, 1) // Default to red
 		_MainTex ("Texture", 2D) = "white" {}
-
-		_BumpMap ("Bump Texture", 2D) = "bump" {}//Bump Map
-        _Bump ("Bump Amount", Range(-1, 1)) = 1//Bump Multiplier
-
 	}
 
 	SubShader
@@ -24,8 +20,6 @@ Shader "Game/Floor"
 
 			uniform float4 _Color;
 			sampler2D _MainTex;
-			sampler2D _BumpMap;
-			float _Bump;
 
 			uniform float4 _LightColor0;
 
@@ -42,7 +36,6 @@ Shader "Game/Floor"
 				float4 pos: SV_POSITION;//Vertex position
 				float4 col: COLOR;//Vertex colour
 				float2 uv : TEXCOORD0;//Texture coordinates (pixel from texture to use)
-				float4 normalDir : TEXCOORD1;
 			};
 
 			vertexOutput vert(vertexInput v) 
@@ -51,7 +44,6 @@ Shader "Game/Floor"
 				
 				//Calculate output o variables using input v information and return o
 				float3 normalDirection = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject).xyz);
-
 				float3 lightDirection;
 				float atten = 1.0;
 			
@@ -59,34 +51,22 @@ Shader "Game/Floor"
 				
 				//Calculate diffuse reflection using normal and light direction gathered above
 				float3 diffuseReflection = atten * _LightColor0.xyz * max(0.0, dot(normalDirection, lightDirection));
-				float3 light_final = diffuseReflection;// + UNITY_LIGHTMODEL_AMBIENT.xyz;
+				float3 light_final = diffuseReflection + UNITY_LIGHTMODEL_AMBIENT.xyz;
 
-				o.col = float4(light_final, 1.0);//Set o color
+				o.col = float4(light_final * _Color.rgb, 1.0);//Set o color
 
 				o.pos = UnityObjectToClipPos(v.vertex);//Set position of vertex
 
 				o.uv = v.texcoord;
-
-				o.normalDir = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject));
 
 				return o;//return vertex
 			}
 
 			float4 frag(vertexOutput i): COLOR//Get fragment color from vertex output
 			{	
-				
-				float3 normalDirection = i.normalDir;//Use predetermined normal direction
-				normalDirection *= tex2D(_BumpMap, i.uv);//Add bump map normals
-				normalDirection.y *= _Bump;
-                float atten = 1.0;
+				fixed4 col = i.col;
 
-                float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);//Get light direction
-                float3 diffuseReflection = atten * _LightColor0.xyz * max(0.0, dot(normalDirection, lightDirection));
-
-				fixed4 col = float4(diffuseReflection, 1.0);
-
-				col += tex2D(_MainTex, i.uv);
-				col *= _Color;
+				col *= tex2D(_MainTex, i.uv);
 
 				return col;//Set fragment color to vertex colour
 			}

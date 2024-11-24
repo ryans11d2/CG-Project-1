@@ -5,7 +5,6 @@ Shader "Custom/Specular"
         _Color ("Colour", Color) = (1.0, 1.0, 1.0)
         _SpecColor("Specular Colour", Color) = (1.0, 1.0, 1.0)
         _Shininess("Shininess", Float) = 10
-        _Aer ("Specular-Ambient-Diffuse", Range(0, 1)) = 1
     }
     SubShader
     {
@@ -22,7 +21,6 @@ Shader "Custom/Specular"
             uniform float4 _Color;
             uniform float4 _SpecColor;
             uniform float _Shininess;
-            uniform float _Aer;
 
             uniform float4 _LightColor0;//Colour of directional light
 
@@ -66,11 +64,7 @@ Shader "Custom/Specular"
                 float3 specularReflection = atten * _SpecColor.rgb * shininessPower;
 
                 //Combine diffuse lighting, ambient lighting, and specular reflection
-                float3 lightFinal = diffuseReflection;
-                lightFinal = _Aer == 1 ? lightFinal : lightFinal + UNITY_LIGHTMODEL_AMBIENT;
-
-                lightFinal = _Aer > 0 ? lightFinal : lightFinal + specularReflection;
-
+                float3 lightFinal = diffuseReflection + UNITY_LIGHTMODEL_AMBIENT + specularReflection;
 
                 return float4(lightFinal * _Color.rgb, 1.0);
             }

@@ -4,7 +4,6 @@ Shader "Game/Laser"
 	{
 		_Color ("Colour", Color) = (1, 0, 0, 1) // Default to red
 		_Scroll ("Scroll", Range(-1000, 1000)) = 1
-		_MainTex ("Texture", 2D) = "white" {}
 		_Dir ("Direction", float) = 1
 	}
 
@@ -21,7 +20,6 @@ Shader "Game/Laser"
 			#pragma fragment frag
 
 			uniform float4 _Color;
-			sampler2D _MainTex;
 			float _Scroll;
 
 			uniform float4 _LightColor0;
