@@ -39,26 +39,21 @@ Shader "Game/Switch"
             o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));//Set pixel normal based on corresponding pixel in bump map
             o.Normal *= float3(_Bump, _Bump, 1);//Multiply normal by slider to increase depth of bumps
 
-            o.Normal = o.Normal.y < 0 ? o.Normal : o.Normal - tex2D(_BumpMap, IN.uv_BumpMap) * _Bump;
-
-            //o.Emission = o.Normal.y > 0 ? o.Emission : tex2D(_myDiffuse, IN.uv_myDiffuse).rgb * o.Normal.y * a;
-
         }
         ENDCG
 
         Tags {"Queue" = "Transparent"}
 
         Pass {
-            ZWrite On
-            ColorMask 0
+            ColorMask 0//Set colour mask to 0 so only emissions are visible
         }
 
-        CGPROGRAM
+        CGPROGRAM//Draw emmision on bumps
         #pragma surface surf Lambert alpha:fade
 
         struct Input
         {
-            float3 viewDir;
+            float3 viewDir;//Camera direction
             float2 uv_BumpMap;
         };
 

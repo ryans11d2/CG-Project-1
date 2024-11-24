@@ -2,8 +2,8 @@ Shader "Game/SmallWall"
 {
 	Properties
 	{
-		_Color ("Colour", Color) = (1, 0, 0, 1) // Default to red
-		_MainTex ("Texture", 2D) = "white" {}
+		_Color ("Colour", Color) = (1, 1, 1, 1)//Colour
+		_MainTex ("Texture", 2D) = "white" {}//Texture
 	}
 
 	SubShader
@@ -47,26 +47,26 @@ Shader "Game/SmallWall"
 				float3 lightDirection;
 				float atten = 1.0;
 			
-				lightDirection = normalize(_WorldSpaceLightPos0.xyz);
+				lightDirection = normalize(_WorldSpaceLightPos0.xyz);//Get position of light
 				
-				//Calculate diffuse reflection using normal and light direction gathered above
+				//Calculate diffuse reflection based on the direction to the light source, and the vertex normal
 				float3 diffuseReflection = atten * _LightColor0.xyz * max(0.0, dot(normalDirection, lightDirection));
-				float3 light_final = diffuseReflection + UNITY_LIGHTMODEL_AMBIENT.xyz;
+				float3 light_final = diffuseReflection + UNITY_LIGHTMODEL_AMBIENT.xyz;//Add ambient light
 
-				o.col = float4(light_final * _Color.rgb, 1.0);//Set o color
+				o.col = float4(light_final * _Color.rgb, 1.0);//Add colour
 
 				o.pos = UnityObjectToClipPos(v.vertex);//Set position of vertex
 
-				o.uv = v.texcoord;
+				o.uv = v.texcoord;//Get uv coordinates
 
 				return o;//return vertex
 			}
 
 			float4 frag(vertexOutput i): COLOR//Get fragment color from vertex output
 			{	
-				fixed4 col = i.col;
+				fixed4 col = i.col;//Set fragment colour to vertex output colour
 
-				col *= tex2D(_MainTex, i.uv);
+				col *= tex2D(_MainTex, i.uv);//Add texture to colour
 
 				return col;//Set fragment color to vertex colour
 			}

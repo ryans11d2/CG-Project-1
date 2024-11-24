@@ -2,9 +2,8 @@ Shader "Game/Laser"
 {
 	Properties
 	{
-		_Color ("Colour", Color) = (1, 0, 0, 1) // Default to red
-		_Scroll ("Scroll", Range(-1000, 1000)) = 1
-		_Dir ("Direction", float) = 1
+		_Color ("Colour", Color) = (1, 0, 0, 1) //Laser Colour
+		_Scroll ("Scroll", Range(-1000, 1000)) = 1//Colour Offset
 	}
 
 	SubShader
@@ -62,17 +61,19 @@ Shader "Game/Laser"
 
 			float4 frag(vertexOutput i): COLOR//Get fragment color from vertex output
 			{	
-				fixed4 col = i.col;
+				fixed4 col = i.col;//Setup colour variable
 
-				_Scroll *= _Time;
+				_Scroll *= _Time;//Scale scroll variable by time
 
+				//Set colour based on pixel coordinates so colour fluxuates, add scroll for apearance of movement
 				col *= 2 + sin((i.pos.x + i.pos.y + _Scroll) * 0.4);
 				
-				float pulse = sin(_Time * 100) / 2;
+				float pulse = sin(_Time * 100) / 2;//Set pulse (based on sin of time for value that raises and lowers)
 
+				//If pulse is less than 0, set the reverse value insead, that way the value is always greater than 0
 				pulse = sin(_Time * 100) / 2 > 0 ? pulse : -sin(_Time * 100) / 2;
 
-				col *= pulse;
+				col *= pulse;//Multiply colour by pulse for fading effect
 
 				return col;//Set fragment colour to vertex colour
 			}
