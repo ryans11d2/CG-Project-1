@@ -6,6 +6,8 @@ public class Switch : MonoBehaviour
 {
     [SerializeField] GameObject[] Activate;
     [SerializeField] float duration = 4.0f;
+    [SerializeField] GameObject[] flash;
+    float active = 0;
     float timer = 0;
     void Start()
     {
@@ -23,7 +25,7 @@ public class Switch : MonoBehaviour
             {
                 Activate[i].SetActive(false);
             }
-            gameObject.GetComponent<Renderer>().material.SetFloat("_Active", timer / duration);
+            active = timer / duration;
         }
         else
         {
@@ -32,10 +34,14 @@ public class Switch : MonoBehaviour
             {
                 Activate[i].SetActive(true);
             }
-            gameObject.GetComponent<Renderer>().material.SetFloat("_Active", 0);
+            active = 0;
         }
 
-       
+        foreach (GameObject go in flash)
+        {
+            go.GetComponent<Renderer>().material.SetFloat("_Active", active);
+        }
+        
 
     }
 

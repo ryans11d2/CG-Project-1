@@ -37,15 +37,14 @@ Shader "Game/Globe"
 
         void vert (inout appdata_full v) {
              v.vertex.xyz *= _GlobeScale;//Extrude vertices to make the shape appear larger
+             v.texcoord.x += _GlobeScroll *= _Time;//Offset texture x position based on time
         }
 
         void surf (Input IN, inout SurfaceOutput o)
         {
-            _GlobeScroll *= _Time;
-            float2 s = (0, _GlobeScroll);
 
             //Set pixel colour based on corresponding pixel in MainTex
-            float4 c = tex2D(_GlobeTex, IN.uv_GlobeTex + s);
+            float4 c = tex2D(_GlobeTex, IN.uv_GlobeTex);
 
             //Set  Albedo and Alpha from texture
             o.Albedo = c.rgb;
@@ -60,26 +59,26 @@ Shader "Game/Globe"
             ColorMask 0//Set to ColorMask 0 so only Emission is visible
         }
 
-        CGPROGRAM//Draw hologram
-        #pragma surface surf Lambert alpha:fade
+            CGPROGRAM//Draw hologram
+            #pragma surface surf Lambert alpha:fade
 
-        struct Input
-        {
-            float3 viewDir;
-        };
+            struct Input
+            {
+                float3 viewDir;
+            };
 
-        float4 _RimColor;
-        float _RimPower;
+            float4 _RimColor;
+            float _RimPower;
 
-        void surf (Input IN, inout SurfaceOutput o)
-        {
-            //Set emmision based on angle between surface and view direction, higher angles are brighter
-            half rim = 1.0 - saturate(dot(normalize(IN.viewDir), o.Normal));
+            void surf (Input IN, inout SurfaceOutput o)
+            {
+                //Set emmision based on angle between surface and view direction, higher angles are brighter
+                half rim = 1.0 - saturate(dot(normalize(IN.viewDir), o.Normal));
 
-            o.Emission = _RimColor.rgb * pow(rim,_RimPower) * 10;
-            o.Alpha = pow(rim,_RimPower);//Increase alpha based on rim (pixels with rim lighting have higher alpha)
-        }
-        ENDCG
+                o.Emission = _RimColor.rgb * pow(rim,_RimPower) * 10;
+                o.Alpha = pow(rim,_RimPower);//Increase alpha based on rim (pixels with rim lighting have higher alpha)
+            }
+            ENDCG
 
         
 

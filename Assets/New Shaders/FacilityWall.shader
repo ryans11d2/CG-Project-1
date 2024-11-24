@@ -13,6 +13,9 @@ Shader "Game/FacilityWall"
         _FrontTex ("Decoration Texture", 2D) = "white" {}//Diffuse Texture
         _FrontBump ("Deco Bump Texture", 2D) = "bump" {}//Bump Map
         _FrontDepth ("Deco Bump Amount", Range(-10, 10)) = 1//Bump Multiplier
+
+        _Active ("Active", Range(0, 1)) = 1
+
     }
     SubShader
     {
@@ -39,7 +42,7 @@ Shader "Game/FacilityWall"
         sampler2D _FrontBump;
         float _FrontDepth;
 
-        //uniform float4 _LightColor0;//Colour of directional light
+        float _Active;
 
         struct Input
         {
@@ -54,10 +57,12 @@ Shader "Game/FacilityWall"
         {
             o.Albedo = tex2D(_FrontTex, IN.uv_FrontTex).rgb;//Set pixel colour based on corresponding pixel in MainTex
             o.Albedo = tex2D(_FrontTex, IN.uv_FrontTex).a != 0 ? o.Albedo : tex2D(_MainTex, IN.uv_MainTex).rgb * _Color;//Replace transparent pixels with main texture
+            o.Albedo *= _Active;
 
             //Set pixel normal based on corresponding pixel in bump map
             o.Normal = UnpackNormal(tex2D(_FrontBump, IN.uv_FrontBump)) * float3(_FrontDepth, _FrontDepth, 1);
             o.Normal = tex2D(_FrontTex, IN.uv_FrontTex).a != 0 ? o.Normal : UnpackNormal(tex2D(_MainBump, IN.uv_MainBump)) * float3(_MainDepth, _MainDepth, 1);
+            o.Normal *= _Active;
         }
 
         ENDCG

@@ -48,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex:
-        m_Texture: {fileID: 2800000, guid: fb5c4e5ab4dfc32409f5e6e4d11223fc, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4f15dab7a3a1e1e4b96fd38a4a718499, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainBump:
@@ -73,6 +73,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Active: 1
     - _Atten: 1
     - _Bump: 6.8
     - _BumpScale: 1
