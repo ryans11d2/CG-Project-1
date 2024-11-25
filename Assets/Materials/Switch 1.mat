@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Floor
-  m_Shader: {fileID: 4800000, guid: c5cdfa6eaf91c1147a7a79546cb487c0, type: 3}
+  m_Name: Switch 1
+  m_Shader: {fileID: 4800000, guid: 2b778822be3b74d4792e466bd05fc265, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: a5adf0ff5a74b054db61a679bf83a7b7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2d360f71a9a1523419c5ae0cf8fe660c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: e063cb4271576334696665ac64a861e3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7ad015de44610c146a7f94c8fdb1180f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -59,9 +59,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _myBump:
+        m_Texture: {fileID: 2800000, guid: 2d360f71a9a1523419c5ae0cf8fe660c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _myDiffuse:
+        m_Texture: {fileID: 2800000, guid: 87367e7868f0a824cab9a382e0727339, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Active: 1
+    - _Active: 0
+    - _Activee: 1
     - _Bump: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -70,16 +79,20 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _Invert: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _RimPower: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
+    - _mySlider: 4.3
     m_Colors:
-    - _Color: {r: 0.3132075, g: 0.3132075, b: 0.3132075, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 0, b: 0.093449116, a: 1}
   m_BuildTextureStacks: []

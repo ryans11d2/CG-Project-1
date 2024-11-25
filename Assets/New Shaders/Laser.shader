@@ -2,8 +2,11 @@ Shader "Game/Laser"
 {
 	Properties
 	{
-		_Color ("Colour", Color) = (1, 0, 0, 1) //Laser Colour
-		_Scroll ("Scroll", Range(-1000, 1000)) = 1//Colour Offset
+		_Color ("Colour", Color) = (1, 0, 0, 1) //Laser Colour (Amplitude)
+		_Scroll ("Scroll", Range(-10, 10)) = 1//Colour Offset (horizontal shift)
+		_Stretch ("Stretch", float) = 0.4//Colour Stretch (Frequency)
+		_Shift ("Colour Shift", float) = 2//Colour shift (vertical shift)
+		_Freq ("Pulse Frequency", float) = 100
 	}
 
 	SubShader
@@ -20,6 +23,9 @@ Shader "Game/Laser"
 
 			uniform float4 _Color;
 			float _Scroll;
+			float _Stretch;
+			float _Shift;
+			float _Freq;
 
 			uniform float4 _LightColor0;
 
@@ -27,51 +33,35 @@ Shader "Game/Laser"
 			struct vertexInput//vertexInput component
 			{
 				float4 vertex: POSITION;//Vertex position
-				float3 normal: NORMAL;//Vertec normal
+				float4 texcoord: TEXCOORD;
 			};
 
 			struct vertexOutput//vertexOutput component
 			{
 				float4 pos: SV_POSITION;//Vertex position
-				float4 col: COLOR;//Vertex colour
+				float2 uv: TEXCOORD0;
 			};
 
 			vertexOutput vert(vertexInput v) 
 			{
 				vertexOutput o;//o has the pos and col col variables of vertexOutput
-				
-				//Calculate output o variables using input v information and return o
-				float3 normalDirection = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject).xyz);
-				float3 lightDirection;
-				float atten = 1.0;
-			
-				lightDirection = normalize(_WorldSpaceLightPos0.xyz);
-				
-				//Calculate diffuse reflection using normal and light direction gathered above
-				float3 diffuseReflection = atten * _LightColor0.xyz * max(0.0, dot(normalDirection, lightDirection));
-				float3 lightFinal = diffuseReflection + UNITY_LIGHTMODEL_AMBIENT.xyz;
-
-				o.col = float4(lightFinal * _Color.rgb, 1.0);//Set o color
-				o.col = _Color;
-
+		
 				o.pos = UnityObjectToClipPos(v.vertex);//Set position of vertex
+				o.uv = v.texcoord;
 
 				return o;//return vertex
 			}
 
 			float4 frag(vertexOutput i): COLOR//Get fragment color from vertex output
 			{	
-				fixed4 col = i.col;//Setup colour variable
+				fixed4 col = _Color;//Set base colour
 
 				_Scroll *= _Time;//Scale scroll variable by time
 
 				//Set colour based on pixel coordinates so colour fluxuates, add scroll for apearance of movement
-				col *= 2 + sin((i.pos.x + i.pos.y + _Scroll) * 0.4);
+				col *= abs(sin((i.uv.y + _Scroll) * _Stretch)) + _Shift;
 				
-				float pulse = sin(_Time * 100) / 2;//Set pulse (based on sin of time for value that raises and lowers)
-
-				//If pulse is less than 0, set the reverse value insead, that way the value is always greater than 0
-				pulse = sin(_Time * 100) / 2 > 0 ? pulse : -sin(_Time * 100) / 2;
+				float pulse = abs(sin(_Time * _Freq));//Set pulse (based on sin of time for value that raises and lowers)
 
 				col *= pulse;//Multiply colour by pulse for fading effect
 
