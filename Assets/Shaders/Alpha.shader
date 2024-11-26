@@ -6,10 +6,8 @@ Shader "Custom/Alpha"
     }
     SubShader
     {
-        
+
         Tags {"Queue" = "Transparent"}
-        
-        ZWrite off
 
         CGPROGRAM
 
@@ -24,6 +22,7 @@ Shader "Custom/Alpha"
 
         void surf (Input IN, inout SurfaceOutput o)
         {
+
             fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
             o.Albedo = c.rgb;
             o.Alpha = c.a;

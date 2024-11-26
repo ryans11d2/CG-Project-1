@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: AlarmGrade
-  m_Shader: {fileID: 4800000, guid: 31325061eed75964190d867edeb68753, type: 3}
+  m_Shader: {fileID: 4800000, guid: 91d9629aa5fee2e45b70aa39bc5dfe8d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []

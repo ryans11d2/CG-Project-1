@@ -3,7 +3,7 @@ Shader "Custom/Specular"
     Properties
     {
         _Color ("Colour", Color) = (1.0, 1.0, 1.0)
-        _SpecColor("Colour", Color) = (1.0, 1.0, 1.0)
+        _SpecColor("Specular Colour", Color) = (1.0, 1.0, 1.0)
         _Shininess("Shininess", Float) = 10
     }
     SubShader
@@ -22,7 +22,7 @@ Shader "Custom/Specular"
             uniform float4 _SpecColor;
             uniform float _Shininess;
 
-            uniform float4 _LightColor0;
+            uniform float4 _LightColor0;//Colour of directional light
 
             struct vertexInput 
             {
@@ -60,14 +60,17 @@ Shader "Custom/Specular"
                 float3 lightSeeDirection = max(0.0, dot(lightReflectDirection, viewDirection));
                 float3 shininessPower = pow(lightSeeDirection, _Shininess);
 
+
                 float3 specularReflection = atten * _SpecColor.rgb * shininessPower;
-                float3 lightFinal = diffuseReflection + specularReflection + UNITY_LIGHTMODEL_AMBIENT;
+
+                //Combine diffuse lighting, ambient lighting, and specular reflection
+                float3 lightFinal = diffuseReflection + UNITY_LIGHTMODEL_AMBIENT + specularReflection;
 
                 return float4(lightFinal * _Color.rgb, 1.0);
             }
             ENDCG
         }
-        //FallBack "Diffuse"
+        
     }
-    
+    FallBack "Diffuse"
 }
