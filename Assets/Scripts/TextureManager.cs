@@ -6,10 +6,10 @@ public class TextureManager : MonoBehaviour
 {
     private float active = 1.0f;
 
-    // Update is called once per frame
+    [SerializeField] KeyCode ToggleKey = KeyCode.T;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T)) 
+        if (Input.GetKeyDown(ToggleKey) || Input.GetKeyDown(KeyCode.T))
         {
             if (active == 1.0f) active = 0.0f;
             else active = 1.0f;
