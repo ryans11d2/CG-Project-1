@@ -9,6 +9,8 @@ Shader "Game/Switch"
         _RimColor ("Rim Colour", Color) = (0, 0.5, 0.5, 0.0)//Colour of rim light
         _RimPower ("Rim Power", Range(0.5, 10.0)) = 3.0//Power of rim light
 
+        _Timer ("Timer", Range(0, 1)) = 1
+
         _Active ("Active", Range(0, 1)) = 1
 
     }
@@ -24,6 +26,8 @@ Shader "Game/Switch"
         float4 _RimColor;
         float _RimPower;
 
+        float _Active;
+
         struct Input
         {
             float2 uv_myDiffuse;
@@ -34,10 +38,10 @@ Shader "Game/Switch"
         void surf (Input IN, inout SurfaceOutput o)
         {;
 
-            o.Albedo = tex2D(_myDiffuse, IN.uv_myDiffuse).rgb;//Set pixel colour based on corresponding pixel in MainTex
+            o.Albedo = tex2D(_myDiffuse, IN.uv_myDiffuse).rgb * _Active;//Set pixel colour based on corresponding pixel in MainTex
 
             o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));//Set pixel normal based on corresponding pixel in bump map
-            o.Normal *= float3(_Bump, _Bump, 1);//Multiply normal by slider to increase depth of bumps
+            o.Normal *= float3(_Bump, _Bump, 1) * _Active;//Multiply normal by slider to increase depth of bumps
 
         }
         ENDCG
@@ -65,6 +69,7 @@ Shader "Game/Switch"
         half _Bump;
 
         float _Active;
+        float _Timer;
 
         void surf (Input IN, inout SurfaceOutput o)
         {
@@ -72,10 +77,10 @@ Shader "Game/Switch"
             half rim = 1.0 - saturate(dot(normalize(IN.viewDir), o.Normal));
 
             o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));//Set pixel normal based on corresponding pixel in bump map
-            o.Normal *= float3(_Bump, _Bump, 1);//Multiply normal by slider to increase depth of bumps
+            o.Normal *= float3(_Bump, _Bump, 1) * _Active;//Multiply normal by slider to increase depth of bumps
 
-            o.Emission = _RimColor.rgb * pow(rim,_RimPower) * 10 * _Active;
-            o.Alpha = o.Normal.y < 0 ? o.Normal : pow(rim,_RimPower) * _Active;//Increase alpha based on rim (pixels with rim lighting have higher alpha)
+            o.Emission = _RimColor.rgb * pow(rim,_RimPower) * 10 * _Timer;
+            o.Alpha = o.Normal.y < 0 ? o.Normal : pow(rim,_RimPower) * _Timer;//Increase alpha based on rim (pixels with rim lighting have higher alpha)
         }
         ENDCG
 

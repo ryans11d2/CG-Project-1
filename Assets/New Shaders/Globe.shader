@@ -10,6 +10,9 @@ Shader "Game/Globe"
         _GlobeScale ("Globe Scale", Range(0, 1)) = 0.6//Scale of globe object (vs hologram object)
         _GlobeTex ("Globe Texture", 2D) = "white" {}//Globe texture
         _GlobeScroll ("Globe Speed", float) = 0//Globe spin speed
+
+        _Active ("Active", Range(0, 1)) = 1
+
     }
     SubShader//Rimlighting with a transparent base
     {
@@ -35,6 +38,8 @@ Shader "Game/Globe"
         float _GlobeScroll;
         sampler2D _GlobeTex;
 
+        float _Active;
+
         void vert (inout appdata_full v) {
              v.vertex.xyz *= _GlobeScale;//Extrude vertices to make the shape appear larger
              v.texcoord.x += _GlobeScroll *= _Time;//Offset texture x position based on time
@@ -44,7 +49,7 @@ Shader "Game/Globe"
         {
 
             //Set pixel colour based on corresponding pixel in MainTex
-            float4 c = tex2D(_GlobeTex, IN.uv_GlobeTex);
+            float4 c = tex2D(_GlobeTex, IN.uv_GlobeTex) * _Active;
 
             //Set  Albedo and Alpha from texture
             o.Albedo = c.rgb;

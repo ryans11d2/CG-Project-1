@@ -39,7 +39,7 @@ public class Switch : MonoBehaviour
 
         foreach (GameObject go in flash)
         {
-            go.GetComponent<Renderer>().material.SetFloat("_Active", active);
+            go.GetComponent<Renderer>().material.SetFloat("_Timer", active);
         }
         
 

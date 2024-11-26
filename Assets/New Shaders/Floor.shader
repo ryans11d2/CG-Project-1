@@ -78,7 +78,7 @@ Shader "Game/Floor"
 			float4 frag(vertexOutput i): COLOR//Get fragment color from vertex output
 			{	
 				
-				//Reset normal based on normal map
+				//Alter normal based on normal map
 				float3 normalDirection = i.normalDir;//Use predetermined normal direction
 				normalDirection *= tex2D(_BumpMap, i.uv);//Add bump map normals
 				normalDirection.y *= _Bump;
