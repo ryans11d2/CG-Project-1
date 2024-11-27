@@ -123,6 +123,8 @@ This is a new addition that was not in assignment 1.
 The Normal Map assigns each pixel its own normal based on an imputed normal-map texture. For lighting models, the different normal will change the angle of the reflected light and thus, the colour of the pixel, which gives the surface the appearance of bumps without changing the geometry.
 ![image](https://github.com/user-attachments/assets/139f0218-af1f-40e7-a68a-b5d725c45add)
 
+![image](https://github.com/user-attachments/assets/24e4de52-afc2-4841-b624-c4e52ad13f97)
+
 
 Facility Wall:
 Used as the walls for each room, made to look like the walls of a high tech science facility with wires and electrical boxes. Uses a stencil buffer that prevents fragments from drawing if they overlap with door stencil. Uses a pair of textures and normal maps, one for the main wall texture, and another overlay texture for tubes and wires hanging on the wall with a transparent background. The purpose is to set the environment of the game, a highly secure facility like you might see in a heist movie. First, the shader draws the overlay texture, then draws the main wall texture on fragments where the overlay texture has 0 alpha. A pair of normal maps are implemented in a similar way, with the purpose of adding texture to the wall and making the overlay wires stick out from the wall. The shader uses the alpha from the overlay texture to determine if a fragment will take on the normal from the main wall normal map or the overlay normal map. The main wall and overlay normals are multiplied by corresponding slider values from 0 to 1 so the amount the bumps appear to deviate from the wall can be fine tuned. The use of normal maps gives the wall a more realistic 3D look, even though it uses 2D textures. Because it uses a separate normal map for the main wall and overlay, the overlay texture can be switched out for another one easily to add different wall variations. The shader uses the bump-map code provided in the lecture notes as a base. The wall stencil buffer is taken from the stencil shader provided in class. An additional texture and bump-map are added and code is added in the surface function to determine what texture and normal-map to use based on the overlay transparency.
@@ -133,6 +135,7 @@ This has been improved from assignment 1, where it only used a simple texture sh
 
 ![image](https://github.com/user-attachments/assets/d4db76f4-1598-480f-b18e-084f0e06c49a)
 
+![image](https://github.com/user-attachments/assets/04260582-7323-4851-9a73-0ddca57c31d9)
 
 
 Door:
@@ -142,14 +145,25 @@ This has not been changed from assignment 1, it worked sufficiently and did not 
 
 ![image](https://github.com/user-attachments/assets/1158bfe9-9f67-43ef-b92c-a4848923539b)
 
+Door Stencil Buffer:
+![image](https://github.com/user-attachments/assets/7e2aec1f-93c3-4dab-b64c-9ed4d64625fb)
+
+Wall Stencil Buffer:
+![image](https://github.com/user-attachments/assets/76e752d6-3750-4a3d-8fab-b6b277bda856)
 
 Switch:
 The job of a switch is to disable security systems for a duration when shot by the player. The switch is decorated with a circuit pattern that uses a bump map for texture. While the switch is off, it draws a red emission based on the time until it turns back on. The main texture and bump-map are determined using the bump-map shader provided in class. The shader then sets the colour mask to 0 and runs a second cgprogram based off the emission shader provided in class where it draws red emissions with alpha values based on the normal taken from the normal-map. This way the power of the emission is controlled by the switch script and reflects the time the player has before the switch and its connected components turn back on. The switch texture does not properly tile around its sides, but because the camera viewpoint only sees switches from straight ahead, the sides can’t be seen and the texture appears to seamlessly wrap around itself. Multiple cubes with the circuit texture are stacked on top of each other.
 
 This has been improved from assignment 1. It now uses a completely different shader in the place of a simple rim lighting shader. This was improved so the switches could have a thematically appropriate look instead of being yellow boxes with a red glow.
 
+![image](https://github.com/user-attachments/assets/68143a97-dc7d-4484-af6f-03f5a704ceca)
+
+
 Where the normals are not 0, a red emission is applied
 ![image](https://github.com/user-attachments/assets/9cd7004b-052d-4857-b3a4-1531d23b94da)
+
+![image](https://github.com/user-attachments/assets/47ed06f2-7a58-4544-a3a1-1b1b25ccedcf)
+
 
 ![switch demo](https://github.com/user-attachments/assets/9c07888a-74e8-413a-aaf6-171fcc7e966b)
 
@@ -159,6 +173,10 @@ The purpose of the screen is to add decoration to the game scene. TV screens are
 This is a new addition for the final project. This was added to make the levels more interesting and add decoration to the environment.
 
 ![image](https://github.com/user-attachments/assets/7492762a-082d-456f-8924-4e5a74c4e598)
+![image](https://github.com/user-attachments/assets/05a3a682-7c7a-4430-8748-b105ea63283a)
+![image](https://github.com/user-attachments/assets/2b6fd95e-5b14-43ff-9b66-d90448db86ff)
+![image](https://github.com/user-attachments/assets/4788266a-d666-4131-bddf-0130126f11e2)
+![image](https://github.com/user-attachments/assets/899e0c13-e395-492c-a07c-c305c26dfd8b)
 
 
 ![tv screen](https://github.com/user-attachments/assets/38917ef8-ab6a-4ace-aad1-253c2f54e2f9)
@@ -172,9 +190,10 @@ Spotlights are a security system that will trigger the alarm when the player ent
 Only the render queue was changed from assignment 1 after the new switch shader was implemented because its function did not need to be changed or improved.
 
 ![image](https://github.com/user-attachments/assets/ae783223-e778-452e-a5d5-b3a481eee2ee)
+![image](https://github.com/user-attachments/assets/0f210be0-84e1-48a3-9be9-7d68048388d3)
+
 
 ![spotlight demo](https://github.com/user-attachments/assets/76da416f-e29f-44a9-8159-ad3e55a1859e)
-
 
 
 Globe:
@@ -182,8 +201,14 @@ The globe is the terminal players have to reach to retrieve the objective so the
 
 This has been improved from assignment 1, where it used a different hologram shader with texture colours added to the albedo. This was improved so that the globe could be fine tuned for a better look.
 
+![image](https://github.com/user-attachments/assets/c4766c45-187c-482a-b906-b85fce9cee72)
+
+
 The uv referenced by the shader to set the pixel colour is offset by the time, so as time goes on the colour of the pixel changes to a different part of the texture, which gives the appearance that the texture is moving across the object.
 ![image](https://github.com/user-attachments/assets/0196fb61-950b-46aa-bbd4-bbef1b0d7dac)
+
+![image](https://github.com/user-attachments/assets/c65119db-9da7-446e-ab93-5bbf502f6fef)
+
 
 ![globe demo](https://github.com/user-attachments/assets/24fea597-26ee-424d-b72c-cde8e669a781)
 
@@ -191,6 +216,8 @@ Obstacle Walls:
 Obstacle Walls are walls inside rooms that force the path of the player. The walls use an ambient lighting model taken from class. The lighting model functions similarly to the one used in the floor shader, but with additional environmental light determined automatically by unity. The obstacle walls are meant to reflect light similar to the floor, so the environmental light is added to stop them from having dark faces that don’t look good.
 
 This has not been changed from assignment 1. The ambient shader was replaced with a new one that does the same thing because the function did not need to be changed or improved.
+
+![image](https://github.com/user-attachments/assets/5f652b35-1efc-4e05-946d-d291034ff33c)
 
 The added ambient light mixed with the diffuse light prevents the shadows from being too dark.
 ![image](https://github.com/user-attachments/assets/30332eca-b1cb-4502-a860-a6703035c41b)
@@ -201,6 +228,9 @@ The floor of every room is meant to look like a beat up metal floor to fit the t
 
 This has been improved from assignment 1 where it used an ambient diffuse shader. This was improved so it could take on a more realistic metallic and textured look that improves the look of the game.
 
+![image](https://github.com/user-attachments/assets/278fdb3b-fcea-4dd4-990d-1ab8af6f57f1)
+![image](https://github.com/user-attachments/assets/d9b4cc3e-c45f-4fb0-bca8-a5a9a2ad379f)
+
 The Specular lighting model adds the diffuse lighting, ambient environmental lighting, and elements of the holographic shader.
 ![image](https://github.com/user-attachments/assets/674fe512-be56-478b-b8ba-7589d98739de)
 
@@ -209,6 +239,8 @@ Laser:
 The laser is one of the game's security systems that will trigger the alarm if crossed by the player. It is meant to replicate the look of security lasers in action movies. To make the laser feel more like a part of the world, rather than a straight line, the laser pulses on and off and its colour scrolls and oscillates between black and red along its length. The laser shader is based on the lighting model shaders provided in class, but uses almost nothing from them, taking only the position and texcoords from the vertex input and outputting them directly to the fragment. The colour of each fragment is determined by a sine function that oscillates between full and black offset by the time and texture coordinate, and another sine function that oscillates between full and black based on the time. The combination of the two functions gives the laser the look of scrolling coloured dots flashing on and off.
 
 This uses a new original shader instead of the specular shader it used for assignment 1. This was changed to give the lasers some animation that improves the look of the game.
+
+![image](https://github.com/user-attachments/assets/9fca0f2f-9030-4c15-8c42-aaa2863a0f69)
 
 Base Colour:
 c(x) =|Asin(B(x-C)) + D| 
@@ -247,6 +279,8 @@ The aim laser is a long cylinder connected to the player that points in the dire
 
 This uses a new shader instead of the specular one from assignment 1. This was changed to make it look more like a real laser instead of a cylinder, which improves the look of the game.
 
+![image](https://github.com/user-attachments/assets/a1c2251d-c76b-4d5b-bb6b-e63209103af4)
+
 ![aim laser demo](https://github.com/user-attachments/assets/8183c3fb-704b-4892-896d-9755cac45df3)
 
 
@@ -256,10 +290,9 @@ The player character is the character controlled by the player that has to compl
 This has not been changed from assignment 1 because its functions did not need to be changed or improved.
 
 ![image](https://github.com/user-attachments/assets/478a983e-992e-4a5c-b693-95eafb34d4a2)
+![image](https://github.com/user-attachments/assets/939496b7-3b28-4213-8619-62d84d85cb7f)
 
 ![player demo](https://github.com/user-attachments/assets/9cc98107-f44b-4009-9a99-0fca180ef43b)
-
-
 
 
 Colour Grading:
@@ -292,10 +325,14 @@ Adds to the immersion and aesthetic of the game
 The Colour grading shader takes a pixel colour from the screen and replaces it with a corresponding value from a 3D lookup table.
 ![image](https://github.com/user-attachments/assets/a741a710-0d33-4106-83f3-d937a89ecc89)
 
+![image](https://github.com/user-attachments/assets/2a7e6e1e-d453-4fcd-bcc5-26c7f652eab1)
+![image](https://github.com/user-attachments/assets/5ce69803-6b41-43eb-97f4-fa21be0c2e69)
+
 
 Toggling:
 All textures and lighting effects are toggled on and off when the T key is pressed during the game. Toggling is controlled with a variable called “_Active” in every material, which is set between 0 and 1 by a texture manager script on each object. Inside the shaders, every lighting or texture colour is multiplied by _Active meaning that they will have their values set to 0 when the texture manager is toggled off and return to their typical values when it is toggled on. 
 
+![image](https://github.com/user-attachments/assets/8812236e-c3dc-4f5f-8de5-048b86a4c898)
 
 ![image](https://github.com/user-attachments/assets/b8b72dac-6f4a-4c21-84d6-0451677e9cd8)
 ![image](https://github.com/user-attachments/assets/d64323ea-4400-46db-9e39-b6f853feb990)
