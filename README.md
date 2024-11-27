@@ -1,3 +1,9 @@
+
+Document With Proper Formating and Diagrams:
+https://docs.google.com/document/d/1GYuuXZxPQc2zoXm2OOhnTry-Pe5opWFDQvB-IBdEiAw/edit?tab=t.0
+
+
+
 Ryan Steele - 100926075
 
 Assignment 2 Deliverables:
@@ -7,8 +13,6 @@ https://github.com/ryans11d2/CG-Project-1
 
 Release:
 https://github.com/ryans11d2/CG-Project-1/releases/
-
-Slideshow: 
 
 Video:
 
@@ -29,7 +33,6 @@ https://youtu.be/MgLF8nyuwag
 
 Report:
 https://docs.google.com/document/d/1fsTJLy9Jdd0lGcsc1a07hBH7ic7yrJinzlsPoj92z58/edit?tab=t.0 
-
 
 
 Assignment 1 Deliverables:
@@ -106,18 +109,6 @@ All shaders based on content from class
 
 Explanations:
 
-Warm LUT
-When the alarm is active, a warm LUT adds a red colour to everything
-Boosts the red channel for shadows, making the facility appear to glow red from the alarm lights
-Cold LUT
-When a room is dark, a cool LUT is used
-Dark LUT, uses maximize channel, as most colours in the dark look blue, the colours of lasers and lights stick out a lot more
-
-Custom LUT
-When a room uses a security camera perspective, a green colour is added to everything
-Normal LUT with translucent green drawn on top
-The green LUT has “Generate Mipmap” enabled to add the effect of a low resolution screen
-
 Implementation:
 Use in game
 How it’s made
@@ -127,11 +118,19 @@ Diagram if necessary
 Wall Decoration:
 To make the walls of the level more interesting, some decorative objects were made to be placed around the walls and add some variation to the rooms. The decorative objects use a shader based on the normal map shader provided in class, which uses an imputed normal-map image to determine the normal direction for a fragment.
 
+This is a new addition that was not in assignment 1.
+
+The Normal Map assigns each pixel its own normal based on an imputed normal-map texture. For lighting models, the different normal will change the angle of the reflected light and thus, the colour of the pixel, which gives the surface the appearance of bumps without changing the geometry.
+
+
 Facility Wall:
 Used as the walls for each room, made to look like the walls of a high tech science facility with wires and electrical boxes. Uses a stencil buffer that prevents fragments from drawing if they overlap with door stencil. Uses a pair of textures and normal maps, one for the main wall texture, and another overlay texture for tubes and wires hanging on the wall with a transparent background. The purpose is to set the environment of the game, a highly secure facility like you might see in a heist movie. First, the shader draws the overlay texture, then draws the main wall texture on fragments where the overlay texture has 0 alpha. A pair of normal maps are implemented in a similar way, with the purpose of adding texture to the wall and making the overlay wires stick out from the wall. The shader uses the alpha from the overlay texture to determine if a fragment will take on the normal from the main wall normal map or the overlay normal map. The main wall and overlay normals are multiplied by corresponding slider values from 0 to 1 so the amount the bumps appear to deviate from the wall can be fine tuned. The use of normal maps gives the wall a more realistic 3D look, even though it uses 2D textures. Because it uses a separate normal map for the main wall and overlay, the overlay texture can be switched out for another one easily to add different wall variations. The shader uses the bump-map code provided in the lecture notes as a base. The wall stencil buffer is taken from the stencil shader provided in class. An additional texture and bump-map are added and code is added in the surface function to determine what texture and normal-map to use based on the overlay transparency.
 
 The main texture of the wall is gray, so it looks metallic and bland like a security facility. The wires overlaid are set to cool colours, green, blue, and purple, because warm colours are used for the security measures. To make the security systems stand out, the LUTs typically make warm colours more visible, and I didn’t want the colours on the wall to distract or interfere with the lasers and searchlights.
+
 This has been improved from assignment 1, where it only used a simple texture shader with the stencil buffer. The wall was improved because adding normal mapping made them look better and improved the immersion of the world.
+
+
 
 
 Door:
@@ -146,6 +145,8 @@ The job of a switch is to disable security systems for a duration when shot by t
 
 This has been improved from assignment 1. It now uses a completely different shader in the place of a simple rim lighting shader. This was improved so the switches could have a thematically appropriate look instead of being yellow boxes with a red glow.
 
+Where the normals are not 0, a red emission is applied
+
 
 
 Screen:
@@ -155,12 +156,13 @@ This is a new addition for the final project. This was added to make the levels 
 
 
 
+
 Spotlight:
 Spotlights are a security system that will trigger the alarm when the player enters their radius. The spotlight is meant to look like a large circular searchlight, similar to a theater spotlight, used to search for and uncover intruders. The spotlight shader uses the hologram shader provided in class to give it the look of a large beam of bright light. The shader determines the emission and alpha of each fragment based on the dot product of its normal and the view direction.When the angle to the camera is sharper, the emission and alpha will be higher, lighting up the rim of the object. The brightness uses an exponential function to determine the rim colour instead of a linear one so the rim lighting will be more abrupt and appear more like a line along the edge than a colour spread across the surface. The shader sets its colour mask to 0, making it transparent wherever an emission and alpha have not been set. It also sets the render queue to transparent+1 because it would otherwise draw before switches and prevent them from being visible. The spotlight gameobject is accompanied by a quad using an alpha shader based off the one provided in class to display a circle on the ground where the spotlight is shining.
 
 Only the render queue was changed from assignment 1 after the new switch shader was implemented because its function did not need to be changed or improved.
 
-[Rim Lighting Diagram]
+
 
 
 
@@ -171,15 +173,24 @@ This has been improved from assignment 1, where it used a different hologram sha
 
 
 
-Floor:
-The floor of every room is meant to look like a beat up metal floor to fit the theme. The floor uses a specular lighting shader that combines diffuse lighting, ambient environmental light, and paired with a texture and normal map that gives it a look with some uneven tiles and scratches that a heavily used floor would have. The main purpose of the floor shader is not only for aesthetics, but also to reflect the room lighting. When a room has no lights, or the alarm is on, the floor will reflect the light colour and add to the effect of those lights. The floor shader is based on the specular shader provided in class, but with accommodation to fit a texture and normal-map. The lighting model determines the colour of each fragment by adding the diffuse reflection, unity environmental light, and the specular reflection. The specular reflection is determined by the dot product of the camera angle and the normal direction, fragments with a smaller angle reflect the specular light colour less.
 
-This has been improved from assignment 1 where it used an ambient diffuse shader. This was improved so it could take on a more realistic metallic and textured look that improves the look of the game.
+The uv referenced by the shader to set the pixel colour is offset by the time, so as time goes on the colour of the pixel changes to a different part of the texture, which gives the appearance that the texture is moving across the object.
 
 Obstacle Walls:
 Obstacle Walls are walls inside rooms that force the path of the player. The walls use an ambient lighting model taken from class. The lighting model functions similarly to the one used in the floor shader, but with additional environmental light determined automatically by unity. The obstacle walls are meant to reflect light similar to the floor, so the environmental light is added to stop them from having dark faces that don’t look good.
 
 This has not been changed from assignment 1. The ambient shader was replaced with a new one that does the same thing because the function did not need to be changed or improved.
+
+The added ambient light mixed with the diffuse light prevents the shadows from being too dark.
+
+
+Floor:
+The floor of every room is meant to look like a beat up metal floor to fit the theme. The floor uses a specular lighting shader that combines diffuse lighting, ambient environmental light, and paired with a texture and normal map that gives it a look with some uneven tiles and scratches that a heavily used floor would have. The main purpose of the floor shader is not only for aesthetics, but also to reflect the room lighting. When a room has no lights, or the alarm is on, the floor will reflect the light colour and add to the effect of those lights. The floor shader is based on the specular shader provided in class, but with accommodation to fit a texture and normal-map. The lighting model determines the colour of each fragment by adding the diffuse reflection, unity environmental light, and the specular reflection. The specular reflection is determined by the dot product of the camera angle and the normal direction, fragments with a smaller angle reflect the specular light colour less.
+
+This has been improved from assignment 1 where it used an ambient diffuse shader. This was improved so it could take on a more realistic metallic and textured look that improves the look of the game.
+
+The Specular lighting model adds the diffuse lighting, ambient environmental lighting, and elements of the holographic shader.
+
 
 Laser:
 The laser is one of the game's security systems that will trigger the alarm if crossed by the player. It is meant to replicate the look of security lasers in action movies. To make the laser feel more like a part of the world, rather than a straight line, the laser pulses on and off and its colour scrolls and oscillates between black and red along its length. The laser shader is based on the lighting model shaders provided in class, but uses almost nothing from them, taking only the position and texcoords from the vertex input and outputting them directly to the fragment. The colour of each fragment is determined by a sine function that oscillates between full and black offset by the time and texture coordinate, and another sine function that oscillates between full and black based on the time. The combination of the two functions gives the laser the look of scrolling coloured dots flashing on and off.
@@ -232,11 +243,34 @@ This has not been changed from assignment 1 because its functions did not need t
 
 
 
+
+Colour Grading:
+
+Warm LUT
+When the alarm is active, a warm LUT adds a red colour to everything
+Boosts the red channel for shadows, making the facility appear to glow red from the alarm lights
+Clearly indicates that the alarm is on and the player needs to hurry. Greatly increases immersion.
+
+Cold LUT
+When a room is dark, a cool LUT is used
+Dark LUT, uses maximize channel, as most colours in the dark look blue, the colours of lasers and lights stick out a lot more
+Darkens the scene and makes lasers and spotlights more visible, making it easier for the player to navigate and improving the look of the scene.
+
+
+Custom LUT
+When a room uses a security camera perspective, a green colour is added to everything
+Normal LUT with translucent green drawn on top
+The green LUT has “Generate Mipmap” enabled to add the effect of a low resolution screen
+Adds to the immersion and aesthetic of the game
+
+
+The Colour grading shader takes a pixel colour from the screen and replaces it with a corresponding value from a 3D lookup table.
+
+
+
 Toggling:
-All textures and lighting effects are toggled on and off when the T key is pressed during the game. Toggling is controlled with a variable called “_Active” in every material, which is set between 0 and 1 by a texture manager script on each object. Inside the shaders, every lighting or texture colour is multiplied by _Active meaning that they will have their values set to 0 when the texture manager is toggled off and return to their typical values when it is toggled on.
+All textures and lighting effects are toggled on and off when the T key is pressed during the game. Toggling is controlled with a variable called “_Active” in every material, which is set between 0 and 1 by a texture manager script on each object. Inside the shaders, every lighting or texture colour is multiplied by _Active meaning that they will have their values set to 0 when the texture manager is toggled off and return to their typical values when it is toggled on. 
 
 
 
-Diffuse:
-The lighting model determines the colour of each fragment based on its vertex colour, corresponding texture uv, and the base colour added on top. The vertex colour is determined using the light colour and the dot product of the vertex normal and the light direction.
 
