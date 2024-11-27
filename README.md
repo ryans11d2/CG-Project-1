@@ -1,10 +1,10 @@
-
-Document With Proper Formating and Diagrams:
-https://docs.google.com/document/d/1GYuuXZxPQc2zoXm2OOhnTry-Pe5opWFDQvB-IBdEiAw/edit?tab=t.0
-
-
-
 Ryan Steele - 100926075
+
+PDF With Digrams and Pictures
+https://drive.google.com/file/d/1juVdwAkY2WIMSl1aODcuJ5rndwpKMz2E/view?usp=drive_link
+
+All Resources:
+https://drive.google.com/drive/folders/1vWDNtRXiUjH2_gYyAv1GdbFYgpccmmWY?usp=sharing
 
 Assignment 2 Deliverables:
 
@@ -12,10 +12,13 @@ Github:
 https://github.com/ryans11d2/CG-Project-1 
 
 Release:
-https://github.com/ryans11d2/CG-Project-1/releases/
+https://github.com/ryans11d2/CG-Project-1/releases 
 
 Video:
+https://youtu.be/FI8FQgCgvpg 
 
+Presentation:
+https://docs.google.com/presentation/d/1G7RFILbA45g7fk5r2kRwdEBDYVlmNqb0kibV2Mj_oRc/edit#slide=id.g31ac8de2105_0_0 
 
 
 Assignment 1 Files
@@ -76,7 +79,7 @@ Better LUTs
 Added textures to switches
 Added normal-maps to textures
 Wall shader improved
-Globe shader improved
+Globe shader improved (with replacement)
 Laser shader improved
 
 Textures
@@ -95,10 +98,10 @@ Laser (No Texture)
 Visual Effects (New)
 Screen
 TV Screens are placed around walls throughout the game, and add variation to the wall textures with some animation. The screen shader employs scrolling textures and decals for its effect. Greater detail can be found below.
+![image](https://github.com/user-attachments/assets/792867c3-2beb-42c5-98e1-95f99e2c714d)
 
 Globe
-
-
+Uses a new shader, different from the original one, that uses texture scrolling and vertix extrusion. Greater detail can be found below.
 
 
 External Resources:
@@ -109,18 +112,14 @@ All shaders based on content from class
 
 Explanations:
 
-Implementation:
-Use in game
-How it’s made
-Purpose
-Deviation from class
-Diagram if necessary
+
 Wall Decoration:
 To make the walls of the level more interesting, some decorative objects were made to be placed around the walls and add some variation to the rooms. The decorative objects use a shader based on the normal map shader provided in class, which uses an imputed normal-map image to determine the normal direction for a fragment.
 
 This is a new addition that was not in assignment 1.
 
 The Normal Map assigns each pixel its own normal based on an imputed normal-map texture. For lighting models, the different normal will change the angle of the reflected light and thus, the colour of the pixel, which gives the surface the appearance of bumps without changing the geometry.
+![image](https://github.com/user-attachments/assets/139f0218-af1f-40e7-a68a-b5d725c45add)
 
 
 Facility Wall:
@@ -130,6 +129,7 @@ The main texture of the wall is gray, so it looks metallic and bland like a secu
 
 This has been improved from assignment 1, where it only used a simple texture shader with the stencil buffer. The wall was improved because adding normal mapping made them look better and improved the immersion of the world.
 
+![image](https://github.com/user-attachments/assets/d4db76f4-1598-480f-b18e-084f0e06c49a)
 
 
 
@@ -138,6 +138,7 @@ The door is a hole through the facility walls that allow the player to see where
 
 This has not been changed from assignment 1, it worked sufficiently and did not need any adjustments to improve its look or function.
 
+![image](https://github.com/user-attachments/assets/1158bfe9-9f67-43ef-b92c-a4848923539b)
 
 
 Switch:
@@ -146,14 +147,20 @@ The job of a switch is to disable security systems for a duration when shot by t
 This has been improved from assignment 1. It now uses a completely different shader in the place of a simple rim lighting shader. This was improved so the switches could have a thematically appropriate look instead of being yellow boxes with a red glow.
 
 Where the normals are not 0, a red emission is applied
+![image](https://github.com/user-attachments/assets/9cd7004b-052d-4857-b3a4-1531d23b94da)
 
-
+![switch demo](https://github.com/user-attachments/assets/9c07888a-74e8-413a-aaf6-171fcc7e966b)
 
 Screen:
 The purpose of the screen is to add decoration to the game scene. TV screens are positioned on walls around the level to add to the aesthetic of the game and make the rooms seem more visually interesting. For a touch of humor, all the screens display a logo bouncing around, inspired by the DVD logo, in front of a scrolling static texture. The shader is loosely based on the ambient shader provided in class, with elements of the scroll shader provided as well. The shader takes the position, normal, and texcoord from the vertex input and outputs position, color, normal direction, and three different UVs. A main UV is used for reference later in the script, as the other two are altered in ways that would mess up the calculations. The second UV is the decal UV, which can be scaled to make the decal texture bigger or smaller. The third UV is for the background texture, and is offset along the y axis based on the time. A draw region can be set using sliders that determines what coordinates of the decal texture should be drawn. Cutoff ranges can be set from the left, right, top, and bottom of the texture, and the decal will only be drawn inside those bounds, otherwise the background texture is drawn. The background texture is also automatically drawn where the decal texture has an alpha that is less than 1. The cutoff ranges are offset by the same values that the decal UV is, so when the decal is moved it doesn’t leave the draw region. The specific functions of this shader allow a part of an overlay texture to be isolated and move around, unlike the default texture offset settings that move the entire texture. The bouncing logo is moved by a script that changes the offset values.
 
 This is a new addition for the final project. This was added to make the levels more interesting and add decoration to the environment.
 
+![image](https://github.com/user-attachments/assets/7492762a-082d-456f-8924-4e5a74c4e598)
+
+
+![tv screen](https://github.com/user-attachments/assets/38917ef8-ab6a-4ace-aad1-253c2f54e2f9)
+![screen control demo](https://github.com/user-attachments/assets/ccf9ec8f-2847-4410-a17c-8c128b433fcf)
 
 
 
@@ -162,7 +169,9 @@ Spotlights are a security system that will trigger the alarm when the player ent
 
 Only the render queue was changed from assignment 1 after the new switch shader was implemented because its function did not need to be changed or improved.
 
+![image](https://github.com/user-attachments/assets/ae783223-e778-452e-a5d5-b3a481eee2ee)
 
+![spotlight demo](https://github.com/user-attachments/assets/76da416f-e29f-44a9-8159-ad3e55a1859e)
 
 
 
@@ -171,10 +180,10 @@ The globe is the terminal players have to reach to retrieve the objective so the
 
 This has been improved from assignment 1, where it used a different hologram shader with texture colours added to the albedo. This was improved so that the globe could be fine tuned for a better look.
 
-
-
-
 The uv referenced by the shader to set the pixel colour is offset by the time, so as time goes on the colour of the pixel changes to a different part of the texture, which gives the appearance that the texture is moving across the object.
+![image](https://github.com/user-attachments/assets/0196fb61-950b-46aa-bbd4-bbef1b0d7dac)
+
+![globe demo](https://github.com/user-attachments/assets/24fea597-26ee-424d-b72c-cde8e669a781)
 
 Obstacle Walls:
 Obstacle Walls are walls inside rooms that force the path of the player. The walls use an ambient lighting model taken from class. The lighting model functions similarly to the one used in the floor shader, but with additional environmental light determined automatically by unity. The obstacle walls are meant to reflect light similar to the floor, so the environmental light is added to stop them from having dark faces that don’t look good.
@@ -182,6 +191,7 @@ Obstacle Walls are walls inside rooms that force the path of the player. The wal
 This has not been changed from assignment 1. The ambient shader was replaced with a new one that does the same thing because the function did not need to be changed or improved.
 
 The added ambient light mixed with the diffuse light prevents the shadows from being too dark.
+![image](https://github.com/user-attachments/assets/30332eca-b1cb-4502-a860-a6703035c41b)
 
 
 Floor:
@@ -190,6 +200,7 @@ The floor of every room is meant to look like a beat up metal floor to fit the t
 This has been improved from assignment 1 where it used an ambient diffuse shader. This was improved so it could take on a more realistic metallic and textured look that improves the look of the game.
 
 The Specular lighting model adds the diffuse lighting, ambient environmental lighting, and elements of the holographic shader.
+![image](https://github.com/user-attachments/assets/674fe512-be56-478b-b8ba-7589d98739de)
 
 
 Laser:
@@ -222,9 +233,11 @@ y = Colour of fragment
 X = Time
 
 This is the laser colour over time represented on a graph constructed using Desmos Graphing Calculator
-
+![image](https://github.com/user-attachments/assets/d75403a0-073e-4840-b9b0-89c18e583d30)
 The final colour value is represented by the red line, which displays its base colour value (represented by blue) offset by the time, multiplied by the pulse value (represented by green), which sets the final value between the base value and 0 multiplied by the time. In practice, the base colour would also be offset by its uv y position which is why the fragments have different colours that appear to move.
 
+![laser demo 1](https://github.com/user-attachments/assets/a41e270d-9c4d-4b4d-ad0c-537aae84abd5)
+![laser demo 2](https://github.com/user-attachments/assets/40fdf8a5-5cf7-4961-a1fc-3e79642ebf97)
 
 
 Aim Laser:
@@ -232,6 +245,7 @@ The aim laser is a long cylinder connected to the player that points in the dire
 
 This uses a new shader instead of the specular one from assignment 1. This was changed to make it look more like a real laser instead of a cylinder, which improves the look of the game.
 
+![aim laser demo](https://github.com/user-attachments/assets/8183c3fb-704b-4892-896d-9755cac45df3)
 
 
 Player Character:
@@ -239,7 +253,9 @@ The player character is the character controlled by the player that has to compl
 
 This has not been changed from assignment 1 because its functions did not need to be changed or improved.
 
+![image](https://github.com/user-attachments/assets/478a983e-992e-4a5c-b693-95eafb34d4a2)
 
+![player demo](https://github.com/user-attachments/assets/9cc98107-f44b-4009-9a99-0fca180ef43b)
 
 
 
@@ -251,10 +267,15 @@ When the alarm is active, a warm LUT adds a red colour to everything
 Boosts the red channel for shadows, making the facility appear to glow red from the alarm lights
 Clearly indicates that the alarm is on and the player needs to hurry. Greatly increases immersion.
 
+![image](https://github.com/user-attachments/assets/4f51aa7a-a082-42f3-8075-5c67b4c696a9)
+
+
 Cold LUT
 When a room is dark, a cool LUT is used
 Dark LUT, uses maximize channel, as most colours in the dark look blue, the colours of lasers and lights stick out a lot more
 Darkens the scene and makes lasers and spotlights more visible, making it easier for the player to navigate and improving the look of the scene.
+
+![image](https://github.com/user-attachments/assets/3c58491e-4608-4ff3-bb8d-e15363117214)
 
 
 Custom LUT
@@ -263,14 +284,18 @@ Normal LUT with translucent green drawn on top
 The green LUT has “Generate Mipmap” enabled to add the effect of a low resolution screen
 Adds to the immersion and aesthetic of the game
 
+![image](https://github.com/user-attachments/assets/92ce56a6-2f41-478c-823b-d88afc4f4286)
+
 
 The Colour grading shader takes a pixel colour from the screen and replaces it with a corresponding value from a 3D lookup table.
-
+![image](https://github.com/user-attachments/assets/a741a710-0d33-4106-83f3-d937a89ecc89)
 
 
 Toggling:
 All textures and lighting effects are toggled on and off when the T key is pressed during the game. Toggling is controlled with a variable called “_Active” in every material, which is set between 0 and 1 by a texture manager script on each object. Inside the shaders, every lighting or texture colour is multiplied by _Active meaning that they will have their values set to 0 when the texture manager is toggled off and return to their typical values when it is toggled on. 
 
 
+![image](https://github.com/user-attachments/assets/b8b72dac-6f4a-4c21-84d6-0451677e9cd8)
+![image](https://github.com/user-attachments/assets/d64323ea-4400-46db-9e39-b6f853feb990)
 
 
