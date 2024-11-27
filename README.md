@@ -103,6 +103,8 @@ TV Screens are placed around walls throughout the game, and add variation to the
 Globe
 Uses a new shader, different from the original one, that uses texture scrolling and vertix extrusion. Greater detail can be found below.
 
+Laser
+Uses sine funtions to set pixel colour along a cylinder based on the time and uv position. Greater detail can be found below.
 
 External Resources:
 LUT’s are modified versions of the NeutralLUT provided on Canvas.
