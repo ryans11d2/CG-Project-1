@@ -2069,7 +2069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 705507997}
-  walls: {fileID: 243060780}
+  walls: {fileID: 1891172063}
   Power: 1
   win: 0
   cam: {fileID: 963194229}
@@ -5710,7 +5710,7 @@ Transform:
   m_GameObject: {fileID: 731270034}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -5, y: 5, z: 0}
+  m_LocalPosition: {x: -5.04, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7107,7 +7107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 705507997}
-  walls: {fileID: 1480954602}
+  walls: {fileID: 250354361}
   Power: 0
   win: 0
   cam: {fileID: 963194229}
